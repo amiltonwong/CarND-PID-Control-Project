@@ -35,9 +35,9 @@ int main()
   PID pid_steer;
  // TODO: Initialize the pid variable.
   
-  const double Kp_s = 0.055;
-  const double Ki_s = 0.0024;
-  const double Kd_s = 1.26;
+  const double Kp_s = 0.05;
+  const double Ki_s = 0.002;
+  const double Kd_s = 1.3;
   pid_steer.Init(Kp_s, Ki_s, Kd_s);
   
   PID pid_throttle;
