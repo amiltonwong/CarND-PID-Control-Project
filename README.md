@@ -11,7 +11,7 @@ The simulator provides the cross track error (CTE) and the velocity (mph) in ord
 ## Rubric Discussion Points
 #### Describe the effect each of the P, I, D components had in your implementation.
 
-PID Controller is implemented in `PID` class. Two instance of PID controller: `pid_steer` and `pid_throttle` are instantiated for  controlling steer and throttle.
+PID Controller is implemented in `PID` class. Two instance of PID controller: `pid_steer` and `pid_throttle` are initiated for controlling steer and throttle.
 
 pid_steer
 
@@ -19,11 +19,16 @@ The strategy is to initialize the integral part (I) and derivative part (D) to z
 
 Then, we slowly increase derivative part (D) until the car drives in stabilized manner. To minimize the lap time. I choose some tweaking steps as follows.
 
-(stop here)
-
 Changes to the P and D components had the expected results
 
-Increasing P also increased the magnitude of the oscillation
+If P is increased, the magnitude of the oscillation also is increased.
+If D is increased within sutitable range, the oscillation is smoothed out. 
+If I is added a bit, it helps the car center onto the track under long and fast turn, which lets the car achieve speeds approaching to 50 mph.
+
+The relationship among those three parameters (P / I / D) is obtained after several runs and trials, they are:
+
+The propotional part (P) cannot be to
+
 Increasing D smoothed the oscillation out. But if D was set too high, it destabilized the cars trajectory - especially through curves - by causing quick and extreme steering changes.
 Adding a little bit to the I component helped center the vehicle significantly through long, fast turns and was key to achieving speeds above 50 mp/h. While the car does not have a steering bias, the track mostly turns left. So with I at zero, the vehicle tends to stay to the right of center-lane and won't allow the throttle PID to accelerate significantly.
 After a few runs, some relationships between the parameters stood out:
