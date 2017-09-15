@@ -1,3 +1,7 @@
+#include <vector>
+#include <numeric>
+#include <iostream>
+
 #ifndef PID_H
 #define PID_H
 

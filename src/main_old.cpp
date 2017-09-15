@@ -33,8 +33,8 @@ int main()
   uWS::Hub h;
 
   PID pid_steer;
- // TODO: Initialize the pid variable.
-  
+  // TODO: Initialize the pid variable.
+
   const double Kp_s = 0.055;
   const double Ki_s = 0.0024;
   const double Kd_s = 1.26;
@@ -46,17 +46,16 @@ int main()
   const double Kd_t = 3.0;
   pid_throttle.Init(Kp_t, Ki_t, Kd_t);
 
-  h.onMessage([&pid_steer, &pid_throttle](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
+  h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
     if (length && length > 2 && data[0] == '4' && data[1] == '2')
     {
-      auto s = hasData(std::string(data));
+      auto s = hasData(std::string(data).substr(0, length));
       if (s != "") {
         auto j = json::parse(s);
         std::string event = j[0].get<std::string>();
-        
         if (event == "telemetry") {
           // j[1] is the data JSON object
           double cte = std::stod(j[1]["cte"].get<std::string>());
@@ -70,19 +69,19 @@ int main()
           * NOTE: Feel free to play around with the throttle and speed. Maybe use
           * another PID controller to control the speed!
           */
-          
-          // making values less sensitive at higher speeds, but only if we are not breaking
-          if ((speed > 50) & (throttle_value > 0.0)) {
+
+          if ((speed > 50.0) & (throttle_value > 0.0)) {
             pid_steer.Kp = 0.03;
             pid_steer.Ki = 0.0012;
             pid_steer.Kd = 0.8;
-          } else { // have to reset to defaults once car slows down
+          } else { // reset to default when the car slows down
             pid_steer.Kp = 0.055;
             pid_steer.Ki = 0.0024;
             pid_steer.Ki = 0.00;
             pid_steer.Kd = 1.26;
-          }
+          }          
           
+
           pid_steer.UpdateError(cte);
           
           // addressing issues with I
@@ -115,13 +114,13 @@ int main()
                 throttle_value = max_breaking;
             }
           }
-                  
+
           // DEBUG
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
-          msgJson["throttle"] = throttle_value;
+          msgJson["throttle"] = 0.3;
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
@@ -170,4 +169,3 @@ int main()
   }
   h.run();
 }
-
