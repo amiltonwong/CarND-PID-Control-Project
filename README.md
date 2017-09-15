@@ -9,6 +9,8 @@ The simulator provides the cross track error (CTE) and the velocity (mph) in ord
 ---
 
 ## Rubric Discussion Points
+#### Describe the effect each of the P, I, D components had in your implementation.
+
 
 
 ## Dependencies
