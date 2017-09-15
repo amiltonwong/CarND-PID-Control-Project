@@ -11,6 +11,7 @@ The simulator provides the cross track error (CTE) and the velocity (mph) in ord
 ## Rubric Discussion Points
 #### Describe the effect each of the P, I, D components had in your implementation.
 
+PID Controller is implemented in `PID` class. Two instance of PID controller: `pid_steer` and `pid_throttle` are instantiated for  controlling steer and throttle.
 
 
 ## Dependencies
