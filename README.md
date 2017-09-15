@@ -34,7 +34,7 @@ Then, we slowly increase derivative part (D) until the car drives in stabilized 
 #### Controlling throttle
 When the car navigates smoothly and stably (in low CTE), one should increase the throttle for the car.
 Thus I choose a simple threshold strategy (line 105-117 to in `main.cpp`) as follows:
-As throttle is inversely propotional to Cross Track Error (CTE), the throttle value is adapted to min_throttle (0.35) when `throttle_value < min_throttle` and `speed < min_speed`, while the throttle value is adapted to max_breaking (-0.35) when `throttle_value < max_breaking`.
+As throttle is inversely propotional to Cross Track Error (CTE), the throttle value is adapted to min_throttle (0.5) when `throttle_value < min_throttle` and `speed < min_speed`, while the throttle value is adapted to max_breaking (-0.5) when `throttle_value < max_breaking`.
 
 
 ## Dependencies
