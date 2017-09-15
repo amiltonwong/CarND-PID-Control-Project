@@ -13,6 +13,27 @@ The simulator provides the cross track error (CTE) and the velocity (mph) in ord
 
 PID Controller is implemented in `PID` class. Two instance of PID controller: `pid_steer` and `pid_throttle` are instantiated for  controlling steer and throttle.
 
+pid_steer
+
+The strategy is to initialize the integral part (I) and derivative part (D) to zero first. Then search value for propotional part (P) which only variates to some extent.
+
+Then, we slowly increase derivative part (D) until the car drives in stabilized manner. To minimize the lap time. I choose some tweaking steps as follows.
+
+(stop here)
+
+Changes to the P and D components had the expected results
+
+Increasing P also increased the magnitude of the oscillation
+Increasing D smoothed the oscillation out. But if D was set too high, it destabilized the cars trajectory - especially through curves - by causing quick and extreme steering changes.
+Adding a little bit to the I component helped center the vehicle significantly through long, fast turns and was key to achieving speeds above 50 mp/h. While the car does not have a steering bias, the track mostly turns left. So with I at zero, the vehicle tends to stay to the right of center-lane and won't allow the throttle PID to accelerate significantly.
+After a few runs, some relationships between the parameters stood out:
+
+If P is too low, the vehicle won't successfully navigate the two tight turns after the bridge.
+Oscillation could be smoothed out and the overall speed improved iteratively in two ways
+Increase D
+If increasing D results in a less stable lap, then lower P and increase I
+My default parameter settings still cause some oscillation at speeds above 60 mp/h. To enable the vehicle to continue accelerating, I am lowering all parameters significantly at high speed.
+
 
 ## Dependencies
 
