@@ -1,7 +1,14 @@
 # CarND-Controls-PID
 Self-Driving Car Engineer Nanodegree Program
 
+## Introduction
+
+In this project, the task is to build a PID controller and find the suitable PID parameters. 
+The simulator provides the cross track error (CTE) and the velocity (mph) in order to compute the appropriate steering angle.
 ---
+
+## Rubric Discussion Points
+
 
 ## Dependencies
 
