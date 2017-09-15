@@ -41,9 +41,9 @@ int main()
   pid_steer.Init(Kp_s, Ki_s, Kd_s);
   
   PID pid_throttle;
-  const double Kp_t = 0.6;
+  const double Kp_t = 0.55;
   const double Ki_t = 0.0;
-  const double Kd_t = 3.0;
+  const double Kd_t = 2.8;
   pid_throttle.Init(Kp_t, Ki_t, Kd_t);
 
   h.onMessage([&pid_steer, &pid_throttle](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
@@ -73,14 +73,14 @@ int main()
           
           // making values less sensitive at higher speeds, but only if we are not breaking
           if ((speed > 50) & (throttle_value > 0.0)) {
-            pid_steer.Kp = 0.03;
-            pid_steer.Ki = 0.0012;
+            pid_steer.Kp = 0.04;
+            pid_steer.Ki = 0.001;
             pid_steer.Kd = 0.8;
           } else { // have to reset to defaults once car slows down
-            pid_steer.Kp = 0.055;
-            pid_steer.Ki = 0.0024;
+            pid_steer.Kp = 0.05;
+            pid_steer.Ki = 0.002;
             pid_steer.Ki = 0.00;
-            pid_steer.Kd = 1.26;
+            pid_steer.Kd = 1.2;
           }
           
           pid_steer.UpdateError(cte);
@@ -104,9 +104,9 @@ int main()
           // update throttle
           pid_throttle.UpdateError(cte);
           throttle_value = 1.0 - std::fabs(pid_throttle.TotalError());
-          double min_speed = 40;
-          double min_throttle = 0.3;
-          double max_breaking = -0.3;
+          double min_speed = 35;
+          double min_throttle = 0.5;
+          double max_breaking = -0.5;
           if (throttle_value < min_throttle) { 
             if (speed < min_speed)
               throttle_value = min_throttle;
