@@ -35,15 +35,8 @@ There are two ways to smooth the jittering during the whole navigation while ret
 pid_throttle
 As throttle is inversely propotional to Cross Track Error (CTE). When the car navigates smoothly and stably (in low CTE), one should increase the throttle for the car.
 
-Increasing D smoothed the oscillation out. But if D was set too high, it destabilized the cars trajectory - especially through curves - by causing quick and extreme steering changes.
-Adding a little bit to the I component helped center the vehicle significantly through long, fast turns and was key to achieving speeds above 50 mp/h. While the car does not have a steering bias, the track mostly turns left. So with I at zero, the vehicle tends to stay to the right of center-lane and won't allow the throttle PID to accelerate significantly.
-After a few runs, some relationships between the parameters stood out:
-
-If P is too low, the vehicle won't successfully navigate the two tight turns after the bridge.
-Oscillation could be smoothed out and the overall speed improved iteratively in two ways
-Increase D
-If increasing D results in a less stable lap, then lower P and increase I
-My default parameter settings still cause some oscillation at speeds above 60 mp/h. To enable the vehicle to continue accelerating, I am lowering all parameters significantly at high speed.
+I choose the simple threshold strategy (line to in main.cpp) to :
+As throttle is inversely propotional to Cross Track Error (CTE), and the throttle value is adapted to min_throttle (0.35) when `throttle_value < min_throttle` and `speed < min_speed`, while the throttle value is adapted to max_breaking (-0.35) when `throttle_value < max_breaking`.
 
 
 ## Dependencies
