@@ -27,9 +27,9 @@ Then, we slowly increase derivative part (D) until the car drives in stabilized 
 1. The propotional part (P) cannot be too low, otherwise the car will not pass the rapid turns after the bridge.
 2. There are two ways to smooth the jittering during the whole navigation while retaining high speed:
 
-2.1. increase derivative part (D).
+  2.1. increase derivative part (D).
 
-2.2. reduce propotional part (P) and increase the integral part (I) when increase D doesn't smooth the jittering.
+  2.2. reduce propotional part (P) and increase the integral part (I) when increase D doesn't smooth the jittering.
 
 #### Controlling throttle
 When the car navigates smoothly and stably (in low CTE), one should increase the throttle for the car.
