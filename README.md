@@ -27,7 +27,13 @@ If I is added a bit, it helps the car center onto the track under long and fast 
 
 The relationship among those three parameters (P / I / D) is obtained after several runs and trials, they are:
 
-The propotional part (P) cannot be to
+The propotional part (P) cannot be too low, otherwise the car will not pass the rapid turns after the bridge.
+There are two ways to smooth the jittering during the whole navigation while retaining high speed:
+1. increase derivative part (D).
+2. reduce propotional part (P) and increase the integral part (I) when increase D doesn't smooth the jittering.
+
+pid_throttle
+As throttle is inversely propotional to Cross Track Error (CTE). When the car navigates smoothly and stably (in low CTE), one should increase the throttle for the car.
 
 Increasing D smoothed the oscillation out. But if D was set too high, it destabilized the cars trajectory - especially through curves - by causing quick and extreme steering changes.
 Adding a little bit to the I component helped center the vehicle significantly through long, fast turns and was key to achieving speeds above 50 mp/h. While the car does not have a steering bias, the track mostly turns left. So with I at zero, the vehicle tends to stay to the right of center-lane and won't allow the throttle PID to accelerate significantly.
