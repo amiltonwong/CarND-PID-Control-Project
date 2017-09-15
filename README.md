@@ -11,32 +11,28 @@ The simulator provides the cross track error (CTE) and the velocity (mph) in ord
 ## Rubric Discussion Points
 #### Describe the effect each of the P, I, D components had in your implementation.
 
-PID Controller is implemented in `PID` class. Two instance of PID controller: `pid_steer` and `pid_throttle` are initiated for controlling steer and throttle.
+PID Controller is implemented in `PID` class (line 13-31 in `PID.cpp`). Two instance of PID controller: `pid_steer` and `pid_throttle` (line 35, 43 in `main.cpp`) are initiated for controlling steer and throttle.
 
-pid_steer
+#### Controlling Steering
 
-The strategy is to initialize the integral part (I) and derivative part (D) to zero first. Then search value for propotional part (P) which only variates to some extent.
+The strategy is to initialize the integral part (I) and derivative part (D) to zero at first. Then search value of proportional part (P) which only variates to some extent.
 
-Then, we slowly increase derivative part (D) until the car drives in stabilized manner. To minimize the lap time. I choose some tweaking steps as follows.
+Then, we slowly increase derivative part (D) until the car drives in stabilized manner. To minimize the lap time. I choose some tweaking steps as follows:
 
-Changes to the P and D components had the expected results
+- If P is increased, the magnitude of the jitting of car's motion also is increased.
+- If D is increased within sutitable range, the jitting of car's motion is smoothed out. 
+- If I is added a bit, it helps the car center onto the track even under long and fast turn, which lets the car's speed achieve approaching to 50 mph.
 
-If P is increased, the magnitude of the oscillation also is increased.
-If D is increased within sutitable range, the oscillation is smoothed out. 
-If I is added a bit, it helps the car center onto the track under long and fast turn, which lets the car achieve speeds approaching to 50 mph.
+- The relationship among these three parameters (P / I / D) is discovered after several runs and trials, they are: 
+1. The propotional part (P) cannot be too low, otherwise the car will not pass the rapid turns after the bridge.
+2. There are two ways to smooth the jittering during the whole navigation while retaining high speed:
+2.1. increase derivative part (D).
+2.2. reduce propotional part (P) and increase the integral part (I) when increase D doesn't smooth the jittering.
 
-The relationship among those three parameters (P / I / D) is obtained after several runs and trials, they are:
-
-The propotional part (P) cannot be too low, otherwise the car will not pass the rapid turns after the bridge.
-There are two ways to smooth the jittering during the whole navigation while retaining high speed:
-1. increase derivative part (D).
-2. reduce propotional part (P) and increase the integral part (I) when increase D doesn't smooth the jittering.
-
-pid_throttle
-As throttle is inversely propotional to Cross Track Error (CTE). When the car navigates smoothly and stably (in low CTE), one should increase the throttle for the car.
-
-I choose the simple threshold strategy (line to in main.cpp) to :
-As throttle is inversely propotional to Cross Track Error (CTE), and the throttle value is adapted to min_throttle (0.35) when `throttle_value < min_throttle` and `speed < min_speed`, while the throttle value is adapted to max_breaking (-0.35) when `throttle_value < max_breaking`.
+#### Controlling throttle
+When the car navigates smoothly and stably (in low CTE), one should increase the throttle for the car.
+Thus I choose a simple threshold strategy (line 105-117 to in `main.cpp`) as follows:
+As throttle is inversely propotional to Cross Track Error (CTE), the throttle value is adapted to min_throttle (0.35) when `throttle_value < min_throttle` and `speed < min_speed`, while the throttle value is adapted to max_breaking (-0.35) when `throttle_value < max_breaking`.
 
 
 ## Dependencies
